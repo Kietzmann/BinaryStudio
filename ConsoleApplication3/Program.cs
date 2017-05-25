@@ -113,7 +113,7 @@ namespace ConsoleApplication3
         public void AddAnimal()
         {
             Console.WriteLine("Available animal types:");
-            Console.WriteLine(Utils.GetAnimalTypes());
+            Console.WriteLine(IOUtils.GetAnimalTypes());
             Console.WriteLine("Enter animal type: \n");
             string animalType = Console.ReadLine();
             if (!string.IsNullOrEmpty(animalType))
@@ -136,17 +136,17 @@ namespace ConsoleApplication3
 
         public void FeedAnimal()
         {
-            Utils.Prompt(ZooController.FeedAnimal);
+            IOUtils.Prompt(ZooController.FeedAnimal);
         }
 
         public void TreatAnimal()
         {
-            Utils.Prompt(ZooController.TreatAnimal);
+            IOUtils.Prompt(ZooController.TreatAnimal);
         }
 
         public void RemoveAnimal()
         {
-            Utils.Prompt(ZooController.RemoveAnimal);
+            IOUtils.Prompt(ZooController.RemoveAnimal);
         }
 
 

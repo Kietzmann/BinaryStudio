@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication3
 {
-    class Utils
+    class IOUtils
     {
         public static void Prompt(Action<string> method)
         {

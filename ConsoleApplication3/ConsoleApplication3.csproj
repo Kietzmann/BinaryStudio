@@ -42,14 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimalTerminator.cs" />
+    <Compile Include="Terminator\AnimalTerminator.cs" />
     <Compile Include="Entity\Animal.cs" />
     <Compile Include="Context\AnimalContext.cs" />
     <Compile Include="Repository\AnimalRepository.cs" />
     <Compile Include="Repository\IAnimalRepository.cs" />
-    <Compile Include="AnimalType.cs" />
+    <Compile Include="Entity\AnimalType.cs" />
     <Compile Include="Entity\Bear.cs" />
-    <Compile Include="ZooController.cs" />
+    <Compile Include="Controller\ZooController.cs" />
     <Compile Include="Entity\Elephant.cs" />
     <Compile Include="Entity\Fox.cs" />
     <Compile Include="Entity\Lion.cs" />
@@ -58,7 +58,7 @@
     <Compile Include="Provider\AnimalProvider.cs" />
     <Compile Include="Entity\Tiger.cs" />
     <Compile Include="Entity\Wolf.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Utils\IOUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

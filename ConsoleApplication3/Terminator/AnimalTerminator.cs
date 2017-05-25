@@ -22,8 +22,11 @@ namespace ConsoleApplication3
             var animals = repository.GetAnimals();
             int zooSize = animals.Count;
             int selectedNumber = generator.Next(0, zooSize);
-            var selectedAnimal = animals.ElementAt(selectedNumber);
-            selectedAnimal.DecreaseState();
+            if (selectedNumber < zooSize - 1) { 
+                var selectedAnimal = animals.ElementAt(selectedNumber);
+                selectedAnimal.DecreaseState();
+            }
+            
         }
 
         public bool IsAllZooDead()
