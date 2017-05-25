@@ -10,7 +10,8 @@ namespace ConsoleApplication3.Entity
     {
         public Bear(string alias) : base(alias)
         {
-            HealthPoints = (int)HealthParameter.Bear;
+            FullHealthPoints = (int) HealthParameter.Bear;
+            _healthPoints = FullHealthPoints;
         }
     }
 }

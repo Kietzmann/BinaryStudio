@@ -12,6 +12,5 @@ namespace ConsoleApplication3.Repository
         T GetAnimal(string animalName);
         void Delete(T animal);
         void Create(T animal);
-//        void Update(T animal);
     }
 }

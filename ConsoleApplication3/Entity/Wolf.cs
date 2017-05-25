@@ -10,7 +10,8 @@ namespace ConsoleApplication3.Entity
     {
         public Wolf(string alias) : base(alias)
         {
-            HealthPoints = (int)HealthParameter.Wolf;
+            FullHealthPoints = (int)HealthParameter.Wolf;
+            _healthPoints = FullHealthPoints;
         }
     }
 }

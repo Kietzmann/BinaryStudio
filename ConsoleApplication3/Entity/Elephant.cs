@@ -12,7 +12,8 @@ namespace ConsoleApplication3.Entity
     {
         public Elephant(string alias) : base(alias)
         {
-            HealthPoints = (int)HealthParameter.Elephant;
+            FullHealthPoints = (int)HealthParameter.Elephant;
+            _healthPoints = FullHealthPoints;
         }
     }
 }

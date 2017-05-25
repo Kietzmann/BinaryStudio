@@ -8,7 +8,7 @@ using ConsoleApplication3.Entity;
 
 namespace ConsoleApplication3.Repository
 {
-    class AnimalRepository : IAnimalRepository<Animal>
+    public class AnimalRepository : IAnimalRepository<Animal>
     {
 //        private bool disposed = false;
         private AnimalContext context;
@@ -60,6 +60,16 @@ namespace ConsoleApplication3.Repository
             {
                 context.Add(animal);
             }
+        }
+
+        public List<Animal> GetAnimals()
+        {
+            return context.GetAnimals().ToList();
+        }
+
+        public bool IsAllZooDead()
+        {
+            return context.IsAllAnimalsDead();
         }
     }
 }

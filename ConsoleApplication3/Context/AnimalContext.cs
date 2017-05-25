@@ -47,7 +47,12 @@ namespace ConsoleApplication3.Context
 
         public Animal Find(string name)
         {
-            return animals[name];
+            Animal result = null;
+            if (animals.ContainsKey(name))
+            {
+                result = animals[name];
+            }
+            return result;
         }
 
         public IEnumerable<Animal> GetAnimals()
@@ -57,25 +62,13 @@ namespace ConsoleApplication3.Context
 
         public void Remove(Animal animal)
         {
-            if (animal != null)
-            {
-                if (animal.Alias != null)
-                {
-                    animals.Remove(animal.Alias);
-                }
-            }
+           animals.Remove(animal.Alias);
         }
 
-//        public void Update(Animal animal)
-//        {
-//            if (animal != null)
-//            {
-//                animals.;
-//                
-//            }
-//        }
-
-
+        public bool IsAllAnimalsDead()
+        {
+            return animals.Values.All(animal => animal.IsDead()) && animals.Count != 0;
+        }
     }
 
 

@@ -9,44 +9,86 @@ namespace ConsoleApplication3.Entity
     public abstract class Animal {
         private const string StringSeparator = " ";
         private const char Dot = '.';
-        public byte HealthPoints { get; protected set; }
-        public State State { get; protected set; }
+
+        public byte HealthPoints
+        {
+            get { return _healthPoints; }
+            protected set
+            {
+                _healthPoints = value;
+                OnStatusChanged();
+            }
+        }
+
+        protected byte _healthPoints;
+        public AnimalState State
+        {
+            get { return _state; }
+            protected set
+            {
+                _state = value;
+                OnStatusChanged();
+            }
+        }
+
+        private AnimalState _state;
+
         public String Alias { get; private set; }
 
+        protected byte FullHealthPoints;
+
+        internal enum HealthParameter
+        {
+            Lion = 5,
+            Tiger = 4,
+            Elephant = 7,
+            Bear = 6,
+            Wolf = 4,
+            Fox = 3
+        }
+
+        public enum AnimalState { Sated = 3, Hungry = 2, Sick = 1, Dead = 0 }
 
         protected Animal(string alias)
         {
-            State = State.Sated;
+            if (string.IsNullOrEmpty(alias))
+            {
+                throw new ArgumentException("Animal alias cannot be null");
+            }
+            _state = AnimalState.Sated;
             Alias = alias;
         }
 
         public void Treat()
         {
-            if (State == State.Sick)
+            if (State == AnimalState.Sick)
             {
-                ++State;
+                if (HealthPoints < FullHealthPoints)
+                {
+                    ++HealthPoints;
+                }
             }
         }
 
         public void Feed()
         {
-            if (State == State.Hungry)
+            if (State == AnimalState.Hungry)
             {
                 ++State;
             }
         }
 
-        public void ChangeState()
+        public void DecreaseState()
         {
             switch (State)
             {
-                case State.Sated:
+                case AnimalState.Sated:
                     --State;
                     break;
-                case State.Hungry:
+                case AnimalState.Hungry:
                     --State;
                     break;
-                case State.Sick:
+                case AnimalState.Sick:
                     ChangeStateForSeek();
                     break;
                 default:
@@ -62,7 +104,7 @@ namespace ConsoleApplication3.Entity
             }
             else
             {
-                State = State.Dead;
+                State = AnimalState.Dead;
             }
         }
 
@@ -89,6 +131,11 @@ namespace ConsoleApplication3.Entity
         private string GetClassName()
         {
             return GetType().ToString().Split(Dot).Last();
+        }
+
+        public bool IsDead()
+        {
+            return State == AnimalState.Dead;
         }
     }
 }

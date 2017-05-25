@@ -10,7 +10,8 @@ namespace ConsoleApplication3.Entity
     {
         public Fox(string alias) : base(alias)
         {
-            HealthPoints = (int)HealthParameter.Fox;
+            FullHealthPoints = (int)HealthParameter.Fox;
+            _healthPoints = FullHealthPoints;
         }
     }
 }

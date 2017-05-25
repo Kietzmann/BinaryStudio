@@ -10,7 +10,8 @@ namespace ConsoleApplication3.Entity
     {
         public Tiger(string alias) : base(alias)
         {
-            HealthPoints = (int)HealthParameter.Tiger;
+            FullHealthPoints = (int)HealthParameter.Tiger;
+            _healthPoints = FullHealthPoints;
         }
     }
 }
