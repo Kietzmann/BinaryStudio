@@ -8,21 +8,37 @@ namespace ConsoleApplication3
 {
     public class Controller
     {
+        
 
-        public void DoWork()
+//        public void DoWork()
+//        {
+//            OnWorkDone(null);
+//        }
+//        private AnimalContext _context{ get; set; }
+//
+//        public delegate void ChangedEventHandler(object sender, EventArgs e);
+//
+//        public event ChangedEventHandler Changed;
+//
+//        protected virtual void OnWorkDone(EventArgs e)
+//        {
+//            if (Changed != null)
+//                Changed(this, e);
+//        }
+
+        void ModifyAnimalState()
         {
-            OnWorkDone(null);
+            
         }
-        private AnimalContext _context{ get; set; }
 
-        public delegate void ChangedEventHandler(object sender, EventArgs e);
-
-        public event ChangedEventHandler Changed;
-
-        protected virtual void OnWorkDone(EventArgs e)
+        void AddNewAnimal()
         {
-            if (Changed != null)
-                Changed(this, e);
+            
+        }
+
+        void RemoveAnimal()
+        {
+            
         }
     }
 }

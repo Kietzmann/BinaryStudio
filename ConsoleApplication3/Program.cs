@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleApplication3.Entity;
+using ConsoleApplication3.Factory;
 
 namespace ConsoleApplication3
 {

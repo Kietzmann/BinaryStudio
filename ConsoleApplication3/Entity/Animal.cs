@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication3 {
+namespace ConsoleApplication3.Entity
+{
     public abstract class Animal {
         private const string StringSeparator = " ";
+        private const char Dot = '.';
         public byte HealthPoints { get; protected set; }
         public State State { get; protected set; }
         public String Alias { get; private set; }
@@ -69,7 +71,7 @@ namespace ConsoleApplication3 {
             StringBuilder result = new StringBuilder();
             result.Append(GetClassName());
             result.Append(StringSeparator);
-            result.Append("with");
+            result.Append("with name");
             result.Append(StringSeparator);
             result.Append(Alias);
             result.Append(StringSeparator);
@@ -80,13 +82,13 @@ namespace ConsoleApplication3 {
             result.Append("and health:");
             result.Append(StringSeparator);
             result.Append(HealthPoints);
-            result.Append(".");
+            result.Append(Dot);
             return result.ToString();
         }
 
         private string GetClassName()
         {
-            return GetType().ToString().Split('.').Last();
+            return GetType().ToString().Split(Dot).Last();
         }
     }
 }
