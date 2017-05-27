@@ -1,18 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApplication3.Entity
 {
-    public abstract class Animal {
+    public abstract class Animal
+    {
+        public enum AnimalState
+        {
+            Sated = 3,
+            Hungry = 2,
+            Sick = 1,
+            Dead = 0
+        }
+
         private const string StringSeparator = " ";
         private const char Dot = '.';
 
+        protected byte _healthPoints;
+
+        private AnimalState _state;
+
+        protected byte FullHealthPoints;
+
+        protected Animal(string alias)
+        {
+            if (string.IsNullOrEmpty(alias))
+                throw new ArgumentException("Animal alias cannot be null");
+            _state = AnimalState.Sated;
+            Alias = alias;
+        }
+
         public byte HealthPoints
         {
-            get { return _healthPoints; }
+            get => _healthPoints;
             protected set
             {
                 _healthPoints = value;
@@ -20,10 +41,9 @@ namespace ConsoleApplication3.Entity
             }
         }
 
-        protected byte _healthPoints;
         public AnimalState State
         {
-            get { return _state; }
+            get => _state;
             protected set
             {
                 _state = value;
@@ -31,51 +51,19 @@ namespace ConsoleApplication3.Entity
             }
         }
 
-        private AnimalState _state;
-
-        public String Alias { get; private set; }
-
-        protected byte FullHealthPoints;
-
-        internal enum HealthParameter
-        {
-            Lion = 5,
-            Tiger = 4,
-            Elephant = 7,
-            Bear = 6,
-            Wolf = 4,
-            Fox = 3
-        }
-
-        public enum AnimalState { Sated = 3, Hungry = 2, Sick = 1, Dead = 0 }
-
-        protected Animal(string alias)
-        {
-            if (string.IsNullOrEmpty(alias))
-            {
-                throw new ArgumentException("Animal alias cannot be null");
-            }
-            _state = AnimalState.Sated;
-            Alias = alias;
-        }
+        public string Alias { get; }
 
         public void Treat()
         {
             if (State == AnimalState.Sick)
-            {
                 if (HealthPoints < FullHealthPoints)
-                {
                     ++HealthPoints;
-                }
-            }
         }
 
         public void Feed()
         {
             if (State == AnimalState.Hungry)
-            {
                 ++State;
-            }
         }
 
         public void DecreaseState()
@@ -99,18 +87,14 @@ namespace ConsoleApplication3.Entity
         private void ChangeStateForSeek()
         {
             if (HealthPoints > 1)
-            {
                 --HealthPoints;
-            }
             else
-            {
                 State = AnimalState.Dead;
-            }
         }
 
         public string OnStatusChanged()
         {
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
             result.Append(GetClassName());
             result.Append(StringSeparator);
             result.Append("with name");
@@ -119,7 +103,7 @@ namespace ConsoleApplication3.Entity
             result.Append(StringSeparator);
             result.Append("has state");
             result.Append(StringSeparator);
-            result.Append(State.ToString());
+            result.Append(State);
             result.Append(StringSeparator);
             result.Append("and health:");
             result.Append(StringSeparator);
@@ -136,6 +120,16 @@ namespace ConsoleApplication3.Entity
         public bool IsDead()
         {
             return State == AnimalState.Dead;
+        }
+
+        internal enum HealthParameter
+        {
+            Lion = 5,
+            Tiger = 4,
+            Elephant = 7,
+            Bear = 6,
+            Wolf = 4,
+            Fox = 3
         }
     }
 }

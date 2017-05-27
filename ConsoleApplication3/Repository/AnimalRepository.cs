@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ConsoleApplication3.Context;
 using ConsoleApplication3.Entity;
 
@@ -11,7 +9,7 @@ namespace ConsoleApplication3.Repository
     public class AnimalRepository : IAnimalRepository<Animal>
     {
 //        private bool disposed = false;
-        private AnimalContext context;
+        private readonly AnimalContext context;
 
         public AnimalRepository(AnimalContext context)
         {
@@ -40,26 +38,111 @@ namespace ConsoleApplication3.Repository
         {
             Animal result = null;
             if (animalName != null)
-            {
                 result = context.Find(animalName);
-            }
             return result;
         }
 
         public void Delete(Animal animal)
         {
             if (animal != null)
-            {
                 context.Remove(animal);
-            }
         }
 
         public void Create(Animal animal)
         {
             if (animal != null)
-            {
                 context.Add(animal);
-            }
+        }
+
+        public IEnumerable<Animal> GetAnimalsByState(Animal.AnimalState state)
+        {
+            var animals = GetAnimals();
+            var filteredAnimals = animals.Where(animal => animal.State == state);
+            return filteredAnimals;
+        }
+
+        public IEnumerable<Animal> GetAnimalsGroupedByType()
+        {
+            var animals = GetAnimals();
+            var groupedAnimals = animals.GroupBy(animal => animal.GetType()).SelectMany(grouping => grouping.ToList());
+            return groupedAnimals;
+        }
+
+        public IEnumerable<Animal> GetSickTigers()
+        {
+            var animals = GetAnimals();
+            var sickTigers = animals.Where(animal => animal is Tiger && animal.State == Animal.AnimalState.Sick);
+            return sickTigers;
+        }
+
+        public T GetAnimalByAlias<T>(string name) where T : Animal
+        {
+            var animals = GetAnimals();
+            var selectedAnimal = animals.SingleOrDefault(animal => animal is T && animal.Alias == name);
+            return (T) selectedAnimal;
+        }
+
+        public IEnumerable<string> GetHungryAnimalsNames()
+        {
+            var animals = GetAnimals();
+            var hungryAnimals = animals.Where(animal => animal.State == Animal.AnimalState.Hungry)
+                .Select(animal => animal.Alias);
+            return hungryAnimals;
+        }
+
+        public double GetAverageHealthState()
+        {
+            var animals = GetAnimals();
+            var averageHealth = animals.Select(animal => animal.HealthPoints)
+                .Average(b => (int) b);
+            return averageHealth;
+        }
+
+        public (Animal, Animal) GetAnimalsWithMaxAndMinimalHealthPoints()
+        {
+            var animals = GetAnimals();
+            var animalWithMinHealth = animals.Find(animal => animal.HealthPoints == animals.Min(a => a.HealthPoints));
+            var animalWithMaxHealth = animals.Find(animal => animal.HealthPoints == animals.Max(a => a.HealthPoints));
+            return (animalWithMaxHealth, animalWithMinHealth);
+        }
+
+        public (IEnumerable<Animal>, IEnumerable<Animal>) GetWolfsAndBears<T, V>(int healthPoints)
+            where T : Animal where V : Animal
+        {
+            var animals = GetAnimals();
+            var firstAnimalTypeResult = animals.Where(animal => animal is T && animal.HealthPoints > healthPoints);
+            var secondAnimalTypeResult = animals.Where(animal => animal is V && animal.HealthPoints > healthPoints);
+            return (firstAnimalTypeResult, secondAnimalTypeResult);
+        }
+
+        public IEnumerable<(Type, int)> GetDeathAnimalStatistics()
+        {
+            var animals = GetAnimals();
+            var result = animals.GroupBy(animal => animal.GetType()).Select(g =>
+                (
+                g.Key,
+                g.Count()
+                ));
+            return result;
+        }
+
+        public IEnumerable<(Type, Animal)> GetMostHealthAnimals()
+        {
+            var animals = GetAnimals();
+            var result = animals
+                .GroupBy(a => a.GetType())
+                .Select(g => new
+                {
+                    Type = g.Key,
+                    Values = g,
+                    MaxHealth = g.Max(a => a.HealthPoints)
+                })
+                .Select(c => (
+                    c.Type,
+                    c.Values.First(a => a.HealthPoints == c.MaxHealth)
+                    ));
+
+            return result;
         }
 
         public List<Animal> GetAnimals()

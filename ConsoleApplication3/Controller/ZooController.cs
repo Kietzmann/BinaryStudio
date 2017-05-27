@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApplication3.Entity;
+﻿using ConsoleApplication3.Entity;
 using ConsoleApplication3.Repository;
 
 namespace ConsoleApplication3
 {
     public class ZooController
     {
-
-        private AnimalRepository repository;
+        private readonly AnimalRepository repository;
 
         public ZooController(AnimalRepository repository)
         {
@@ -21,19 +15,13 @@ namespace ConsoleApplication3
         public void FeedAnimal(string animalName)
         {
             var animal = repository.GetAnimal(animalName);
-            if (animal != null)
-            {
-                animal.Feed();
-            }
+            animal?.Feed();
         }
 
         public void TreatAnimal(string animalName)
         {
             var animal = repository.GetAnimal(animalName);
-            if (animal != null)
-            {
-                animal.Treat();
-            }
+            animal?.Treat();
         }
 
         public void AddNewAnimal(Animal animal)
@@ -44,13 +32,8 @@ namespace ConsoleApplication3
         public void RemoveAnimal(string animalName)
         {
             var animal = repository.GetAnimal(animalName);
-            if (animal != null)
-            {
-                if (animal.IsDead())
-                {
-                    repository.Delete(animal);
-                }
-            }
+            if (animal?.IsDead() == true)
+                repository.Delete(animal);
         }
     }
 }

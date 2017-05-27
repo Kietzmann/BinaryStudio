@@ -5,9 +5,7 @@ namespace ConsoleApplication3.Provider
 {
     public class AnimalProvider
     {
-
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="name"></param>
         /// <param name="typeName"></param>
@@ -15,9 +13,7 @@ namespace ConsoleApplication3.Provider
         internal Animal GetAnimal(string name, string typeName)
         {
             if (string.IsNullOrEmpty(name))
-            {
                 throw new ArgumentException("", "name");
-            }
             try
             {
                 var animalType = Type.GetType(GetStandartizedNameOfAnimalClass(typeName), true);
