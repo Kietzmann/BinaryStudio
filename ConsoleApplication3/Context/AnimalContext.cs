@@ -58,5 +58,10 @@ namespace ConsoleApplication3.Context
         {
             return animals.Values.All(animal => animal.IsDead()) && animals.Count != 0;
         }
+
+        public void Clean()
+        {
+            animals.Clear();
+        }
     }
 }
