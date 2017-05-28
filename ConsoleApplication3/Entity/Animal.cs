@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 
 namespace ConsoleApplication3.Entity
 {
@@ -94,7 +92,7 @@ namespace ConsoleApplication3.Entity
 
         public string OnStatusChanged()
         {
-            String result = $"{GetClassName()} with name {Alias} has state{State} and health points {HealthPoints}.";
+            var result = $"{GetClassName()} with name {Alias} has state{State} and health points {HealthPoints}.";
             return result;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConsoleApplication3.Entity;
 
@@ -43,6 +44,11 @@ namespace ConsoleApplication3.Context
         public bool IsAllAnimalsDead()
         {
             return animals.Values.All(animal => animal.IsDead()) && animals.Count != 0;
+        }
+
+        public void Clean()
+        {
+            animals.Clear();
         }
     }
 }

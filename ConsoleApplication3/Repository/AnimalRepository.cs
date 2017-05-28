@@ -8,7 +8,7 @@ namespace ConsoleApplication3.Repository
 {
     public class AnimalRepository : IRepository<Animal>
     {
-        private AnimalContext context;
+        private readonly AnimalContext context;
 
         public AnimalRepository(AnimalContext context)
         {
@@ -85,11 +85,19 @@ namespace ConsoleApplication3.Repository
             var result = animals.Aggregate(new
             {
                 AnimalWithMinHealth = default(Animal),
-                AnimalWithMaxHealth = default(Animal),
+                AnimalWithMaxHealth = default(Animal)
             }, (accumulator, o) => new
             {
-                AnimalWithMinHealth = accumulator.AnimalWithMinHealth == null ? o : (accumulator.AnimalWithMinHealth.HealthPoints < o.HealthPoints ? accumulator.AnimalWithMinHealth : o),
-                AnimalWithMaxHealth = accumulator.AnimalWithMinHealth == null ? o : (accumulator.AnimalWithMaxHealth.HealthPoints > o.HealthPoints ? accumulator.AnimalWithMaxHealth : o)
+                AnimalWithMinHealth = accumulator.AnimalWithMinHealth == null
+                    ? o
+                    : (accumulator.AnimalWithMinHealth.HealthPoints < o.HealthPoints
+                        ? accumulator.AnimalWithMinHealth
+                        : o),
+                AnimalWithMaxHealth = accumulator.AnimalWithMinHealth == null
+                    ? o
+                    : (accumulator.AnimalWithMaxHealth.HealthPoints > o.HealthPoints
+                        ? accumulator.AnimalWithMaxHealth
+                        : o)
             });
             return (result.AnimalWithMaxHealth, result.AnimalWithMinHealth);
         }
@@ -106,11 +114,12 @@ namespace ConsoleApplication3.Repository
         public IEnumerable<(Type, int)> GetDeathAnimalStatistics()
         {
             var animals = GetAnimals();
-            var result = animals.FindAll(a => a.State == Animal.AnimalState.Dead).GroupBy(animal => animal.GetType()).Select(g =>
-                (
-                g.Key,
-                g.Count()
-                ));
+            var result = animals.FindAll(a => a.State == Animal.AnimalState.Dead).GroupBy(animal => animal.GetType())
+                .Select(g =>
+                    (
+                    g.Key,
+                    g.Count()
+                    ));
 //            result = animals.GroupBy(animal => animal.GetType()).Select(element => element);
             return result;
         }

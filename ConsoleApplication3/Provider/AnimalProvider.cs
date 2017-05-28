@@ -5,8 +5,6 @@ namespace ConsoleApplication3.Provider
 {
     public class AnimalProvider
     {
-
-
         internal Animal GetAnimal(string name, string typeName)
         {
             if (string.IsNullOrEmpty(name))

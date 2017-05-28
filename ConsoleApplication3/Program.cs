@@ -1,18 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Timers;
 using ConsoleApplication3.Context;
-using ConsoleApplication3.Controller;
-using ConsoleApplication3.Entity;
 using ConsoleApplication3.Provider;
 using ConsoleApplication3.Repository;
 
 namespace ConsoleApplication3
 {
-    class Program
+    internal class Program
     {
+        public Program()
+        {
+            Context = AnimalContext.Instance;
+            Repository = new AnimalRepository(Context);
+            ZooController = new ZooController(Repository);
+            Provider = new AnimalProvider();
+            Terminator = new AnimalTerminator(Repository);
+        }
+
         private static AnimalProvider Provider { get; set; }
         private static ZooController ZooController { get; set; }
         private static AnimalRepository Repository { get; set; }
@@ -21,19 +25,9 @@ namespace ConsoleApplication3
 
         private static AnimalTerminator Terminator { get; set; }
 
-        public Program()
+        private static void Main(string[] args)
         {
-
-            Context = AnimalContext.Instance;
-            Repository = new Repository.AnimalRepository(Context);
-            ZooController = new ZooController(Repository);
-            Provider = new AnimalProvider();
-            Terminator = new AnimalTerminator(Repository);
-        }
-
-        static void Main(string[] args)
-        {
-            Program program = new Program();
+            var program = new Program();
 
             var timer = new Timer {Interval = 5000};
             timer.Elapsed += (sender, eventArgs) =>
@@ -42,7 +36,7 @@ namespace ConsoleApplication3
                 if (Terminator.IsAllZooDead())
                 {
                     Console.WriteLine(Messages.AllZooDeadOutput);
-                    System.Environment.Exit(1);
+                    Environment.Exit(1);
                 }
             };
             timer.Start();
@@ -51,22 +45,21 @@ namespace ConsoleApplication3
 
         private static void Callback(object state)
         {
-            
         }
 
         public void start()
         {
-            bool proceed = true;
+            var proceed = true;
             while (proceed)
             {
                 Console.WriteLine(Messages.GreetingOutput);
-                string input = Console.ReadLine();
+                var input = Console.ReadLine();
                 int decision;
-                if (Int32.TryParse(input, out decision))
+                if (int.TryParse(input, out decision))
                 {
                     switch (decision)
                     {
-                        case 1: 
+                        case 1:
                             AddAnimal();
                             break;
                         case 2:
@@ -96,7 +89,7 @@ namespace ConsoleApplication3
             }
         }
 
-        static void controller_Changed(object sender, EventArgs e)
+        private static void controller_Changed(object sender, EventArgs e)
         {
             Console.WriteLine();
             throw new NotImplementedException();
@@ -107,12 +100,12 @@ namespace ConsoleApplication3
             Console.WriteLine(Messages.AvailableAnimalTypesOutput);
             Console.WriteLine(IOUtils.GetAnimalTypes());
             Console.WriteLine(Messages.EnterAnimalTypeOutput);
-            string animalType = Console.ReadLine();
+            var animalType = Console.ReadLine();
             if (!string.IsNullOrEmpty(animalType))
             {
                 Console.WriteLine(Messages.EnterAnimalNameOutput);
-                string animalName = Console.ReadLine();
-                if (!string.IsNullOrEmpty(animalName)) { 
+                var animalName = Console.ReadLine();
+                if (!string.IsNullOrEmpty(animalName))
                     try
                     {
                         var animal = Provider.GetAnimal(animalName, animalType);
@@ -122,7 +115,6 @@ namespace ConsoleApplication3
                     {
                         Console.WriteLine(Messages.IncorrectAnimalTypeValueWarningOutput);
                     }
-                }
             }
         }
 
@@ -140,7 +132,5 @@ namespace ConsoleApplication3
         {
             IOUtils.Prompt(ZooController.RemoveAnimal);
         }
-
-
     }
 }

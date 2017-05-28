@@ -1,4 +1,5 @@
-﻿using ConsoleApplication3.Entity;
+﻿using ConsoleApplication3.Controller;
+using ConsoleApplication3.Entity;
 using ConsoleApplication3.Repository;
 
 namespace ConsoleApplication3
