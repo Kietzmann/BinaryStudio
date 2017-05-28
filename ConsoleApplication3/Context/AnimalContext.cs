@@ -1,57 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ConsoleApplication3.Entity;
 
 namespace ConsoleApplication3.Context
 {
-    public sealed class AnimalContext /*: IDisposable*/
+    public sealed class AnimalContext : IContext<Animal>
     {
-        private static volatile AnimalContext instance;
-        private static object syncRoot = new Object();
-        private Dictionary<String, Animal> animals;
-
+        private static readonly Lazy<AnimalContext> lazy = new Lazy<AnimalContext>(() => new AnimalContext());
+        private readonly Dictionary<string, Animal> animals;
 
         private AnimalContext()
         {
             animals = new Dictionary<string, Animal>();
         }
 
-        public static AnimalContext Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (syncRoot)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new AnimalContext();
-                        }                       
-                    }
-                }
-                return instance;
-            }
-        }
+        public static AnimalContext Instance => lazy.Value;
 
         public void Add(Animal animal)
         {
             if (animal != null)
-            {
                 animals[animal.Alias] = animal;
-            }
         }
 
         public Animal Find(string name)
         {
             Animal result = null;
             if (animals.ContainsKey(name))
-            {
                 result = animals[name];
-            }
             return result;
         }
 
@@ -62,7 +38,7 @@ namespace ConsoleApplication3.Context
 
         public void Remove(Animal animal)
         {
-           animals.Remove(animal.Alias);
+            animals.Remove(animal.Alias);
         }
 
         public bool IsAllAnimalsDead()
@@ -70,6 +46,4 @@ namespace ConsoleApplication3.Context
             return animals.Values.All(animal => animal.IsDead()) && animals.Count != 0;
         }
     }
-
-
 }

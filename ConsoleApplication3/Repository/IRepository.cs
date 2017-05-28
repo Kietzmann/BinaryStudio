@@ -7,7 +7,7 @@ using ConsoleApplication3.Entity;
 
 namespace ConsoleApplication3.Repository
 {
-    public interface IAnimalRepository<T> /*: IDisposable*/ where T : Animal
+    public interface IRepository<T> where T : Animal
     {
         T GetAnimal(string animalName);
         void Delete(T animal);

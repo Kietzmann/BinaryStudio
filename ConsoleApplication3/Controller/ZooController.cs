@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleApplication3.Controller;
 using ConsoleApplication3.Entity;
 using ConsoleApplication3.Repository;
 
 namespace ConsoleApplication3
 {
-    public class ZooController
+    public class ZooController : IController<Animal>
     {
 
         private AnimalRepository repository;

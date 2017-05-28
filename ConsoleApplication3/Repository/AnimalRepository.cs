@@ -8,33 +8,14 @@ using ConsoleApplication3.Entity;
 
 namespace ConsoleApplication3.Repository
 {
-    public class AnimalRepository : IAnimalRepository<Animal>
+    public class AnimalRepository : IRepository<Animal>
     {
-//        private bool disposed = false;
         private AnimalContext context;
 
         public AnimalRepository(AnimalContext context)
         {
             this.context = context;
         }
-
-//        public void Dispose()
-//        {
-//            Dispose(true);
-//            GC.SuppressFinalize(this);
-//        }
-//
-//        protected virtual void Dispose(bool disposing)
-//        {
-//            if (!this.disposed)
-//            {
-//                if (disposing)
-//                {
-//                    context.Dispose();
-//                }
-//            }
-//            this.disposed = true;
-//        }
 
         public Animal GetAnimal(string animalName)
         {
