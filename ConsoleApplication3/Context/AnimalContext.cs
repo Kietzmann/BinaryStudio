@@ -4,31 +4,17 @@ using ConsoleApplication3.Entity;
 
 namespace ConsoleApplication3.Context
 {
-    public sealed class AnimalContext /*: IDisposable*/
+    public sealed class AnimalContext : IContext<Animal>
     {
-        private static volatile AnimalContext instance;
-        private static readonly object syncRoot = new object();
+        private static readonly Lazy<AnimalContext> lazy = new Lazy<AnimalContext>(() => new AnimalContext());
         private readonly Dictionary<string, Animal> animals;
-
 
         private AnimalContext()
         {
             animals = new Dictionary<string, Animal>();
         }
 
-        public static AnimalContext Instance
-        {
-            get
-            {
-                if (instance == null)
-                    lock (syncRoot)
-                    {
-                        if (instance == null)
-                            instance = new AnimalContext();
-                    }
-                return instance;
-            }
-        }
+        public static AnimalContext Instance => lazy.Value;
 
         public void Add(Animal animal)
         {
@@ -57,11 +43,6 @@ namespace ConsoleApplication3.Context
         public bool IsAllAnimalsDead()
         {
             return animals.Values.All(animal => animal.IsDead()) && animals.Count != 0;
-        }
-
-        public void Clean()
-        {
-            animals.Clear();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ConsoleApplication3
     {
         public static void Prompt(Action<string> method)
         {
-            Console.WriteLine("Enter animal name:\n");
+            Console.WriteLine(Messages.EnterAnimalNameOutput);
             string animalName = Console.ReadLine();
             if (!String.IsNullOrWhiteSpace(animalName))
             {
@@ -18,7 +18,7 @@ namespace ConsoleApplication3
             }
             else
             {
-                Console.WriteLine("You have entered whitespace name value.");
+                Console.WriteLine(Messages.WhitespaceNameValueWarningOutput);
             }
         }
 

@@ -3,7 +3,7 @@ using ConsoleApplication3.Repository;
 
 namespace ConsoleApplication3
 {
-    public class ZooController
+    public class ZooController : IController<Animal>
     {
         private readonly AnimalRepository repository;
 

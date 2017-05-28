@@ -5,11 +5,8 @@ namespace ConsoleApplication3.Provider
 {
     public class AnimalProvider
     {
-        /// <summary>
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="typeName"></param>
-        /// <exception cref="ArgumentException"></exception>
+
+
         internal Animal GetAnimal(string name, string typeName)
         {
             if (string.IsNullOrEmpty(name))

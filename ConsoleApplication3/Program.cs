@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Timers;
 using ConsoleApplication3.Context;
+using ConsoleApplication3.Controller;
+using ConsoleApplication3.Entity;
 using ConsoleApplication3.Provider;
 using ConsoleApplication3.Repository;
 
@@ -11,7 +13,6 @@ namespace ConsoleApplication3
 {
     class Program
     {
-        private const string IncorrectValueMessage = "You have entered incorrect value. Please try again.\n";
         private static AnimalProvider Provider { get; set; }
         private static ZooController ZooController { get; set; }
         private static AnimalRepository Repository { get; set; }
@@ -24,7 +25,7 @@ namespace ConsoleApplication3
         {
 
             Context = AnimalContext.Instance;
-            Repository = new AnimalRepository(Context);
+            Repository = new Repository.AnimalRepository(Context);
             ZooController = new ZooController(Repository);
             Provider = new AnimalProvider();
             Terminator = new AnimalTerminator(Repository);
@@ -33,28 +34,19 @@ namespace ConsoleApplication3
         static void Main(string[] args)
         {
             Program program = new Program();
-            
-            var timer = new Timer();
-            timer.Interval = 5000;
+
+            var timer = new Timer {Interval = 5000};
             timer.Elapsed += (sender, eventArgs) =>
             {
                 Terminator.Run();
                 if (Terminator.IsAllZooDead())
                 {
-                    Console.WriteLine("All zoo is dead.");
-                    
+                    Console.WriteLine(Messages.AllZooDeadOutput);
                     System.Environment.Exit(1);
                 }
             };
             timer.Start();
             program.start();
-
-
-//               ZooController controller = new ZooController();
-//               controller.Changed += controller_Changed;
-//            Tiger tiger = AbstractAnimalFactory.GetAnimal<Tiger>("Tigr");
-//            Console.WriteLine(tiger.OnStatusChanged());
-//            Console.ReadKey();
         }
 
         private static void Callback(object state)
@@ -67,7 +59,7 @@ namespace ConsoleApplication3
             bool proceed = true;
             while (proceed)
             {
-                Console.WriteLine("Press 1 to add animal, 2 to feed animal, 3 to treat animal, 4 to kill animal.\nPress q to quit.\n");
+                Console.WriteLine(Messages.GreetingOutput);
                 string input = Console.ReadLine();
                 int decision;
                 if (Int32.TryParse(input, out decision))
@@ -87,19 +79,19 @@ namespace ConsoleApplication3
                             RemoveAnimal();
                             break;
                         default:
-                            Console.WriteLine(IncorrectValueMessage);
+                            Console.WriteLine(Messages.IncorrectValueWarningOutput);
                             break;
                     }
                 }
                 else if (input.Trim().ToLower() == "q")
                 {
-                    Console.WriteLine("Bye.");
+                    Console.WriteLine(Messages.ByeOutput);
                     Console.ReadKey();
                     proceed = false;
                 }
                 else
                 {
-                    Console.WriteLine(IncorrectValueMessage);
+                    Console.WriteLine(Messages.IncorrectValueWarningOutput);
                 }
             }
         }
@@ -112,13 +104,13 @@ namespace ConsoleApplication3
 
         public void AddAnimal()
         {
-            Console.WriteLine("Available animal types:");
+            Console.WriteLine(Messages.AvailableAnimalTypesOutput);
             Console.WriteLine(IOUtils.GetAnimalTypes());
-            Console.WriteLine("Enter animal type: \n");
+            Console.WriteLine(Messages.EnterAnimalTypeOutput);
             string animalType = Console.ReadLine();
             if (!string.IsNullOrEmpty(animalType))
             {
-                Console.WriteLine("Enter animal name: \n");
+                Console.WriteLine(Messages.EnterAnimalNameOutput);
                 string animalName = Console.ReadLine();
                 if (!string.IsNullOrEmpty(animalName)) { 
                     try
@@ -128,7 +120,7 @@ namespace ConsoleApplication3
                     }
                     catch (ArgumentException e)
                     {
-                        Console.WriteLine("You have entered incorrect type of animal");
+                        Console.WriteLine(Messages.IncorrectAnimalTypeValueWarningOutput);
                     }
                 }
             }
