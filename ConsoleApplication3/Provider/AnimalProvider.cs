@@ -5,14 +5,10 @@ namespace ConsoleApplication3.Provider
 {
     public class AnimalProvider
     {
-
-
         internal Animal GetAnimal(string name, string typeName)
         {
             if (string.IsNullOrEmpty(name))
-            {
                 throw new ArgumentException("", "name");
-            }
             try
             {
                 var animalType = Type.GetType(GetStandartizedNameOfAnimalClass(typeName), true);

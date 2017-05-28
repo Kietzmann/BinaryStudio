@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConsoleApplication3.Entity
+﻿namespace ConsoleApplication3.Entity
 {
     public class Lion : Animal
     {
         public Lion(string alias) : base(alias)
         {
-            FullHealthPoints = (int)HealthParameter.Lion;
+            FullHealthPoints = (int) HealthParameter.Lion;
             _healthPoints = FullHealthPoints;
         }
     }
