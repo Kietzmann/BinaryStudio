@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Test
 {
     [TestFixture]
-    public class UnitTest1
+    public class AnimalProviderTest
     {
         [SetUp]
         public void TestInitialize()
