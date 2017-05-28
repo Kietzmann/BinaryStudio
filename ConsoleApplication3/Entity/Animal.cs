@@ -110,27 +110,13 @@ namespace ConsoleApplication3.Entity
 
         public string OnStatusChanged()
         {
-            StringBuilder result = new StringBuilder();
-            result.Append(GetClassName());
-            result.Append(StringSeparator);
-            result.Append("with name");
-            result.Append(StringSeparator);
-            result.Append(Alias);
-            result.Append(StringSeparator);
-            result.Append("has state");
-            result.Append(StringSeparator);
-            result.Append(State.ToString());
-            result.Append(StringSeparator);
-            result.Append("and health:");
-            result.Append(StringSeparator);
-            result.Append(HealthPoints);
-            result.Append(Dot);
-            return result.ToString();
+            String result = $"{GetClassName()} with name {Alias} has state{State} and health points {HealthPoints}.";
+            return result;
         }
 
         private string GetClassName()
         {
-            return GetType().ToString().Split(Dot).Last();
+            return GetType().Name;
         }
 
         public bool IsDead()

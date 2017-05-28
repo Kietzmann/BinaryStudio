@@ -42,11 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\IContext.cs" />
+    <Compile Include="Controller\IController.cs" />
+    <Compile Include="Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
     <Compile Include="Terminator\AnimalTerminator.cs" />
     <Compile Include="Entity\Animal.cs" />
     <Compile Include="Context\AnimalContext.cs" />
     <Compile Include="Repository\AnimalRepository.cs" />
-    <Compile Include="Repository\IAnimalRepository.cs" />
+    <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Entity\AnimalType.cs" />
     <Compile Include="Entity\Bear.cs" />
     <Compile Include="Controller\ZooController.cs" />
@@ -62,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

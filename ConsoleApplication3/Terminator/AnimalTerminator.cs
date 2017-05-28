@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleApplication3.Entity;
 using ConsoleApplication3.Repository;
 
 namespace ConsoleApplication3
 {
     public class AnimalTerminator
     {
-        private AnimalRepository repository;
+        private AnimalRepository animalRepository;
         private Random generator;
-        public AnimalTerminator(AnimalRepository repository)
+        public AnimalTerminator(Repository.AnimalRepository animalRepository)
         {
-            this.repository = repository;
+            this.animalRepository = animalRepository;
             generator = new Random();
         }
 
         public void Run()
         {
-            var animals = repository.GetAnimals();
+            var animals = animalRepository.GetAnimals();
             int zooSize = animals.Count;
             int selectedNumber = generator.Next(0, zooSize);
             if (selectedNumber < zooSize - 1) { 
@@ -31,7 +32,7 @@ namespace ConsoleApplication3
 
         public bool IsAllZooDead()
         {
-            return repository.IsAllZooDead();
+            return animalRepository.IsAllZooDead();
         }
     }
 }

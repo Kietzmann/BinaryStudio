@@ -5,9 +5,8 @@ using ConsoleApplication3.Entity;
 
 namespace ConsoleApplication3.Context
 {
-    public sealed class AnimalContext /*: IDisposable*/
+    public sealed class AnimalContext : IContext<Animal>
     {
-        private static volatile AnimalContext instance;
         private static readonly Lazy<AnimalContext> lazy = new Lazy<AnimalContext>(() => new AnimalContext());
         private readonly Dictionary<string, Animal> animals;
 
