@@ -17,7 +17,7 @@ namespace ConsoleApplication3
 
         public void Run()
         {
-            var animals = animalRepository.GetAnimals();
+            var animals = animalRepository.GetAnimals().ToList();
             var zooSize = animals.Count;
             var selectedNumber = generator.Next(0, zooSize);
             if (selectedNumber < zooSize - 1)

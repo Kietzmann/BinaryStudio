@@ -64,25 +64,6 @@ namespace Test
         }
 
         [Test]
-        public void TestGetAnimalsGroupedByType()
-        {
-            var expected = new List<Animal>();
-            Animal newWolf = new Wolf("Grey");
-            Animal newLion = new Lion("Lion");
-            context.Add(newWolf);
-            context.Add(newLion);
-            expected.Add(tiger);
-            expected.Add(lion);
-            expected.Add(newLion);
-            expected.Add(bear);
-            expected.Add(elephant);
-            expected.Add(fox);
-            expected.Add(wolf);
-            expected.Add(newWolf);
-            CollectionAssert.AreEqual(expected, repository.GetAnimalsGroupedByType());
-        }
-
-        [Test]
         public void TestGetAnimalsWithMaxAndMinimalHealthPoints()
         {
             Assert.AreEqual((elephant as Animal, fox as Animal), repository.GetAnimalsWithMaxAndMinimalHealthPoints());
@@ -122,29 +103,8 @@ namespace Test
             tiger.DecreaseState();
             elephant.DecreaseState();
             fox.DecreaseState();
-            CollectionAssert.AreEquivalent(new List<string> { tiger.Alias, elephant.Alias, fox.Alias },
+            CollectionAssert.AreEquivalent(new List<string> {tiger.Alias, elephant.Alias, fox.Alias},
                 repository.GetHungryAnimalsNames());
-        }
-
-        [Test]
-        public void TestGetSickTigers()
-        {
-            Animal tiger = new Tiger("Sick Tiger");
-            tiger.DecreaseState();
-            tiger.DecreaseState();
-            repository.Create(tiger);
-            Assert.AreEqual(tiger, repository.GetSickTigers().First());
-            this.tiger.DecreaseState();
-            this.tiger.DecreaseState();
-            CollectionAssert.AreEquivalent(new List<Animal> { tiger, this.tiger }, repository.GetSickTigers());
-        }
-
-        [Test]
-        public void TestGetWolfsAndBears()
-        {
-            var result = repository.GetWolfsAndBears<Wolf, Bear>(3);
-            CollectionAssert.AreEquivalent(new List<Animal> { wolf }, result.Item1);
-            CollectionAssert.AreEquivalent(new List<Animal> { bear }, result.Item2);
         }
 
         [Test]
@@ -162,40 +122,46 @@ namespace Test
             repository.Create(healthLion);
             repository.Create(healthTiger);
             repository.Create(healthWolf);
-            lion.DecreaseState();
-            lion.DecreaseState();
-            lion.DecreaseState();
-            lion.DecreaseState();
-            tiger.DecreaseState();
-            tiger.DecreaseState();
-            tiger.DecreaseState();
-            tiger.DecreaseState();
-            bear.DecreaseState();
-            bear.DecreaseState();
-            bear.DecreaseState();
-            bear.DecreaseState();
-            wolf.DecreaseState();
-            wolf.DecreaseState();
-            wolf.DecreaseState();
-            wolf.DecreaseState();
-            elephant.DecreaseState();
-            elephant.DecreaseState();
-            elephant.DecreaseState();
-            elephant.DecreaseState();
-            fox.DecreaseState();
-            fox.DecreaseState();
-            fox.DecreaseState();
-            fox.DecreaseState();
-            CollectionAssert.AreEquivalent(new List<(Type, Animal)>()
+            for (var i = 0; i < 4; i++)
+            {
+                lion.DecreaseState();
+                tiger.DecreaseState();
+                bear.DecreaseState();
+                wolf.DecreaseState();
+                elephant.DecreaseState();
+                fox.DecreaseState();
+            }
+            CollectionAssert.AreEquivalent(new List<(Type, Animal)>
                 {
-                    (typeof(Wolf), healthWolf),
-                    (typeof(Fox), healthFox),
+                    (typeof(Tiger), healthTiger),
+                    (typeof(Lion), healthLion),
                     (typeof(Bear), healthBear),
                     (typeof(Elephant), healthElephant),
-                    (typeof(Lion), healthLion),
-                    (typeof(Tiger), healthTiger),
+                    (typeof(Fox), healthFox),
+                    (typeof(Wolf), healthWolf)
                 },
                 repository.GetMostHealthAnimals());
+        }
+
+        [Test]
+        public void TestGetSickTigers()
+        {
+            Animal tiger = new Tiger("Sick Tiger");
+            tiger.DecreaseState();
+            tiger.DecreaseState();
+            repository.Create(tiger);
+            Assert.AreEqual(tiger, repository.GetSickTigers().First());
+            this.tiger.DecreaseState();
+            this.tiger.DecreaseState();
+            CollectionAssert.AreEquivalent(new List<Animal> {tiger, this.tiger}, repository.GetSickTigers());
+        }
+
+        [Test]
+        public void TestGetWolfsAndBears()
+        {
+            var result = repository.GetWolfsAndBears<Wolf, Bear>(3);
+            CollectionAssert.AreEquivalent(new List<Animal> {wolf}, result.Item1);
+            CollectionAssert.AreEquivalent(new List<Animal> {bear}, result.Item2);
         }
     }
 }

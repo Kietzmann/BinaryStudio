@@ -42,10 +42,10 @@ namespace ConsoleApplication3.Repository
             return filteredAnimals;
         }
 
-        public IEnumerable<Animal> GetAnimalsGroupedByType()
+        public IEnumerable<IGrouping<Type, Animal>> GetAnimalsGroupedByType()
         {
             var animals = GetAnimals();
-            var groupedAnimals = animals.GroupBy(animal => animal.GetType()).SelectMany(grouping => grouping.ToList());
+            var groupedAnimals = animals.GroupBy(animal => animal.GetType());
             return groupedAnimals;
         }
 
@@ -114,13 +114,12 @@ namespace ConsoleApplication3.Repository
         public IEnumerable<(Type, int)> GetDeathAnimalStatistics()
         {
             var animals = GetAnimals();
-            var result = animals.FindAll(a => a.State == Animal.AnimalState.Dead).GroupBy(animal => animal.GetType())
+            var result = animals.Where(a => a.State == Animal.AnimalState.Dead).GroupBy(animal => animal.GetType())
                 .Select(g =>
                     (
                     g.Key,
                     g.Count()
                     ));
-//            result = animals.GroupBy(animal => animal.GetType()).Select(element => element);
             return result;
         }
 
@@ -128,24 +127,32 @@ namespace ConsoleApplication3.Repository
         {
             var animals = GetAnimals();
             var result = animals
-                .GroupBy(a => a.GetType())
-                .Select(g => new
+                .GroupBy(a => a.GetType()).Select(g => new
                 {
                     Type = g.Key,
-                    Values = g,
-                    MaxHealth = g.Max(a => a.HealthPoints)
+                    SortedValues = g.OrderBy(o => -o.HealthPoints)
                 })
-                .Select(c => (
-                    c.Type,
-                    c.Values.First(a => a.HealthPoints == c.MaxHealth)
+                .Select(g => (
+                    g.Type,
+                    g.SortedValues.First()
                     ));
+//                .Select(g => new
+//                {
+//                    Type = g.Key,
+//                    Values = g,
+//                    MaxHealth = g.Max(a => a.HealthPoints)
+//                })
+//                .Select(c => (
+//                    c.Type,
+//                    c.Values.First(a => a.HealthPoints == c.MaxHealth)
+//                    ));
 
             return result;
         }
 
-        public List<Animal> GetAnimals()
+        public IEnumerable<Animal> GetAnimals()
         {
-            return context.GetAnimals().ToList();
+            return context.GetAnimals();
         }
 
         public bool IsAllZooDead()

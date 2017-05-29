@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ConsoleApplication3.Entity;
 
 namespace ConsoleApplication3.Repository
@@ -12,7 +13,7 @@ namespace ConsoleApplication3.Repository
 
         IEnumerable<T> GetAnimalsByState(Animal.AnimalState state);
 
-        IEnumerable<T> GetAnimalsGroupedByType();
+        IEnumerable<IGrouping<Type, Animal>> GetAnimalsGroupedByType();
 
         IEnumerable<T> GetSickTigers();
 
